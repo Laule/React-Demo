@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+// 属性接收的强校验
+import PropTypes from 'prop-types';
 
 class TodoItem extends Component {
 
@@ -11,10 +13,10 @@ class TodoItem extends Component {
     render() {
         // 接收父组件传过来的值
         // 加了括号可以换行写
-        const {content} = this.props;
+        const {content, test} = this.props;
         return (
             <li onClick={this.handleClick}>
-                {content}
+                {test} - {content}
             </li>
         )
     }
@@ -25,6 +27,20 @@ class TodoItem extends Component {
         const {deleteItem, index} = this.props;
         deleteItem(index);
     }
+}
+
+// 对 TodoItem 属性进行校验
+TodoItem.propTypes = {
+    // 要求父组件必须向子组件传值
+    test: PropTypes.string.isRequired,
+    content: PropTypes.string,
+    deleteItem: PropTypes.func,
+    index: PropTypes.number
+}
+
+// 设置默认值
+TodoItem.defaultProps = {
+    test:'Say Hello'
 }
 
 export default TodoItem;

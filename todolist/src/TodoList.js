@@ -1,12 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import TodoItem from './TodoItem';
 import './style.css';
+import Test from './Test';
 // JSX 需要一个最外层的标签包裹住
 // 如果不想用标签包裹，可以使用占位符（Fragment）标签
 class TodoList extends Component {
 
     constructor(props) {
         super(props);
+        // 当组件的state或者props发生改变的时候，render函数就会重新执行
         this.state = {
             inputValue: '',
             list: ['学习英语', '学习React']
@@ -18,6 +20,7 @@ class TodoList extends Component {
     }
 
     render() {
+        console.log('render');
         return (
             <Fragment>
                 <div>
@@ -39,6 +42,7 @@ class TodoList extends Component {
                         this.getTodoItem()
                     }
                 </ul>
+                <Test content={this.state.inputValue}/>
             </Fragment>
         );
     }
