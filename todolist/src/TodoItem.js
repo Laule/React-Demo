@@ -14,6 +14,8 @@ class TodoItem extends Component {
         // 接收父组件传过来的值
         // 加了括号可以换行写
         const {content, test} = this.props;
+        // JSX -> 虚拟DOM (JS对象) -> 真实的DOM
+        // return React.createElement('div',{},'item') // JS 对象
         return (
             <li onClick={this.handleClick}>
                 {test} - {content}
