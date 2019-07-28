@@ -23,6 +23,17 @@
 2、它使得跨端应用得以实现。React Native
 
 
+【虚拟DOM Diff 算法】DiffRence
+
+异步比对（如果在很短的时间内发起了三次改变（setState），那就比对最后一次）
+
+state（父亲）   props（孩子）
+
+1、同层比对，算法简单（速度快）
+
+
+
+
 
 
 
