@@ -11,13 +11,48 @@ class TodoList extends Component {
         // 当组件的state或者props发生改变的时候，render函数就会重新执行
         this.state = {
             inputValue: '',
-            list: ['学习英语', '学习React']
+            list: []
         };
         // 初始化this指向问题
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleBtnClick = this.handleBtnClick.bind(this);
         this.handleItemDelete = this.handleItemDelete.bind(this);
     }
+
+    // 在组件即将被挂载到页面的时刻自动执行
+    componentWillMount() {
+        console.log('componentWillMount');
+    }
+
+    // 在组件被挂载之后执行
+    componentDidMount() {
+        console.log('componentDidMount');
+    }
+
+    // 组件被更新之前，会被自动执行
+    shouldComponentUpdate() {
+        console.log('shouldComponentUpdate');
+        // [true，false]
+        return true;
+    }
+
+    // 组件被更新之前，它会自动执行，但是它在shouldComponentUpdate之后被执行，
+    // 如果shouldComponentUpdate返回true,它才会执行，返回false就不执行
+    componentWillUpdate() {
+        console.log('componentWillUpdate');
+    }
+
+    // 组件更新完后，它会被自动执行
+    componentDidUpdate()
+    {
+        console.log('componentDidUpdate');
+    }
+
+    // 没有Props 情况下，是不会自动执行的
+    // componentWillReceiveProps()
+    // {
+    //     console.log('componentWillReceiveProps');
+    // }
 
     render() {
         console.log('render');
@@ -32,22 +67,30 @@ class TodoList extends Component {
                     {/*用className代替class关键词*/}
                     <label htmlFor="insertAfter">输入内容</label>
                     <input id="insertAfter" className="input" type="text" value={this.state.inputValue}
-                           onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange}
+                           ref={(input) => {
+                               this.input = input
+                           }}
+                    />
                     <button onClick={this.handleBtnClick}>
                         提交
                     </button>
                 </div>
-                <ul>
+                <ul ref={(ul) => {
+                    this.ul = ul
+                }}>
                     {
                         this.getTodoItem()
                     }
                 </ul>
-                <Test content={this.state.inputValue}/>
+                {/*<Test content={this.state.inputValue}/>*/}
             </Fragment>
         );
     }
 
     handleInputChange(e) {
+        console.log(e.target);
+        // console.log(this.input); ref
         // console.log(this); // this 指向问题
         // React修改数据内容必须使用setState属性
         // this.setState({
@@ -55,6 +98,7 @@ class TodoList extends Component {
         // });
         // 异步的setState，需要先保存一下数据
         const value = e.target.value;
+        // const value =  this.input.value; ref
         this.setState(() => ({
             inputValue: value
         }))
@@ -62,10 +106,16 @@ class TodoList extends Component {
 
     handleBtnClick(e) {
         // prevState 修改数据之前的数据
+        // 异步函数，不会立即执行
         this.setState((prevState) => ({
             list: [...prevState.list, prevState.inputValue],
             inputValue: ''
-        }))
+        }), () => {
+            // 回调函数，setState执行完再执行
+            console.log(this.ul.querySelectorAll('li').length);
+        })
+
+
     }
 
     getTodoItem() {

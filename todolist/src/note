@@ -1,0 +1,38 @@
+【生命周期函数是指在某一时刻组件会自动调用执行的函数】
+
+ Constructor 构造函数 （ES6就有 不归类到React生命周期函数）
+
+ initialization [初始化数据][setup props and state][构造函数里面]
+
+【Mounting】
+
+ ComponentWillMount [在组件即将被挂载到页面的时刻自动执行]
+
+ Render [负责页面重新渲染的]
+
+ ComponentDidMount [在组件被挂载之后执行]
+
+【Updation】
+
+ [states]
+
+ shouldComponentUpdate [是否要被更新？][组件被更新之前，会被自动执行，返回布尔值决定是否更新][布尔值：true,false]
+
+ componentWillUpdate [组件被更新之前，它会自动执行，但是它在shouldComponentUpdate之后被执行，如果shouldComponentUpdate返回true,它才会执行，返回false就不执行]
+
+ render [shouldComponentUpdate、componentWillUpdate 执行后重新执行]
+
+ componentDidUpdate[组件更新完后，它会被自动执行]
+
+ [props]
+
+ componentWillReceiveProps[当一个组件从父组件接收了参数,如果这个组件第一次存在于父组件中，不会执行,如果这个组件之前已经存在于父组件中，才会执行]
+
+ 【Unmounting】
+
+  componentWillUnmount [当这个组件即将被从页面中剔除的时候，会被执行]
+
+
+
+
+
