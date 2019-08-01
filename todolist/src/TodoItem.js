@@ -10,7 +10,16 @@ class TodoItem extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.content !== this.props.content) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     render() {
+        console.log('child render');
         // 接收父组件传过来的值
         // 加了括号可以换行写
         const {content, test} = this.props;
@@ -29,18 +38,17 @@ class TodoItem extends Component {
         const {deleteItem, index} = this.props;
         deleteItem(index);
     }
+
     // 当一个组件从父组件接收了参数
     // 只要父组件的render函数被重新执行了，子组件的这个生命周期函数就会被执行
     // 如果这个组件第一次存在于父组件中，不会执行
     // 如果这个组件之前已经存在于父组件中，才会执行
-    componentWillReceiveProps()
-    {
+    componentWillReceiveProps() {
         console.log('child componentWillReceiveProps');
     }
 
     // 当这个组件即将被从页面中剔除的时候，会被执行
-    componentWillUnmount()
-    {
+    componentWillUnmount() {
         console.log('componentWillUnmount');
     }
 
@@ -57,7 +65,7 @@ TodoItem.propTypes = {
 
 // 设置默认值
 TodoItem.defaultProps = {
-    test:'Say Hello'
+    test: 'Say Hello'
 }
 
 export default TodoItem;

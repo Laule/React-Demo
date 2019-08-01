@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import TodoItem from './TodoItem';
 import './style.css';
 import Test from './Test';
+import axios from 'axios';
 // JSX 需要一个最外层的标签包裹住
 // 如果不想用标签包裹，可以使用占位符（Fragment）标签
 class TodoList extends Component {
@@ -26,6 +27,19 @@ class TodoList extends Component {
 
     // 在组件被挂载之后执行
     componentDidMount() {
+        axios.get('http://www.hemaisi.com/service/msg/get?page=1&limit=5').then((res) => {
+            const arr = res.data.data;
+            let list = new Set();
+            for (let v of arr) {
+                list.add(v['ip_city']);
+            }
+            this.setState(() => ({
+                list: [...list]
+            }))
+        }).catch(() => {
+            alert('error')
+        });
+
         console.log('componentDidMount');
     }
 
@@ -43,8 +57,7 @@ class TodoList extends Component {
     }
 
     // 组件更新完后，它会被自动执行
-    componentDidUpdate()
-    {
+    componentDidUpdate() {
         console.log('componentDidUpdate');
     }
 
