@@ -1,62 +1,66 @@
 import React, {Component} from 'react';
-import store from './store/index';
-import {getInputChangeAction, getAddItemAction, delItemAction, getInitList} from './store/actionCreators';
-import TodoListUI from './TodoListUI';
+import {connect} from 'react-redux';
 
-class TodoList extends Component {
+const TodoList = (props) => {
+    const {inputValue, list, handleInputChange, handleDelete, handleBtnClick} = props;
+    return (
+        <div>
+            <div>
+                <input value={inputValue} onChange={handleInputChange}/>
+                <button onClick={handleBtnClick}>提交</button>
+            </div>
+            <ul>
+                {
+                    list.map((item, index) => {
+                        return <li onClick={handleDelete} key={index}>{item}</li>
+                    })
+                }
+            </ul>
+        </div>
+    )
+}
 
-    constructor(props) {
-        super(props);
-        this.state = store.getState();
-        console.log(this.state);
-        console.log(store.getState());
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleStoreChange = this.handleStoreChange.bind(this);
-        this.handleBtnClick = this.handleBtnClick.bind(this);
-        this.handleItemDelete = this.handleItemDelete.bind(this);
-        // store 内容发生改变，subscribe内函数就会自动自行
-        store.subscribe(this.handleStoreChange)
+
+// 将state映射给props
+const mapStateToProps = (state) => {
+    return {
+        inputValue: state.inputValue,
+        list: state.list
     }
-
-    render() {
-        return (
-            <TodoListUI
-                inputValue={this.state.inputValue}
-                list={this.state.list}
-                handleInputChange={this.handleInputChange}
-                handleBtnClick={this.handleBtnClick}
-                handleItemDelete={this.handleItemDelete}
-            />
-        )
-    }
-
-    componentDidMount() {
-        const action = getInitList();
-        store.dispatch(action);
-        console.log(action);
-    }
-
-    handleInputChange(e) {
-        const action = getInputChangeAction(e.target.value);
-        store.dispatch(action);
-        console.log(e.target.value);
-    }
-
-    handleItemDelete(index) {
-        const action = delItemAction(index);
-        store.dispatch(action);
-    }
-
-    handleStoreChange() {
-        // console.log('store handleStoreChange');
-        this.setState(store.getState());
-    }
-
-    handleBtnClick() {
-        const action = getAddItemAction();
-        store.dispatch(action);
+}
+// map Dispatch Props
+const mapDispatchProps = (dispatch) => {
+    return {
+        handleInputChange(e) {
+            const action = {
+                type: 'change_input_value',
+                value: e.target.value
+            };
+            dispatch(action);
+            // console.log(e.target.value);
+        },
+        handleBtnClick() {
+            const action = {
+                type: 'add_list_item'
+            };
+            dispatch(action);
+        },
+        handleDelete() {
+            const action = {
+                type: 'delete_list_item'
+            };
+            dispatch(action);
+        }
     }
 }
 
 
-export default TodoList;
+// 让TodoList组件和store做连接,规则在mapStateToProps里面
+export default connect(mapStateToProps, mapDispatchProps)(TodoList);
+
+//connect 是连接
+// 谁和谁连接？TodoList和store进行连接
+// 怎么做连接，映射关系mapStateToProps
+// 如果需要对数据进行修改，可以使用mapDispatchProps进行修改
+
+// UI组件 和业务逻辑相结合 ，执行返回的结果 ，就是容器组件。
