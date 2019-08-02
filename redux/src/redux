@@ -1,0 +1,16 @@
+Redux设计和使用的三个基本原则
+
+1、store 必须是唯一的
+2、只有store才能改变自己的内容
+3、Reducer必须是个纯函数（纯函数是指给定固定的输入，就一定会有固定的输出，而且不会有任何副作用）
+
+
+Redux核心Api
+
+createStore 创建一个store
+
+store.dispatch   派发action，传递给store
+
+store.getState  获取store里所有内容
+
+store.subscribe 订阅store内容的改变

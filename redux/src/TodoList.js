@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import 'antd/dist/antd.css';
-import {Input, Button, List} from 'antd';
 import store from './store/index';
+import {getInputChangeAction, getAddItemAction, delItemAction} from './store/actionCreators';
+import TodoListUI from './TodoListUI';
 
 class TodoList extends Component {
 
@@ -13,46 +13,32 @@ class TodoList extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleStoreChange = this.handleStoreChange.bind(this);
         this.handleBtnClick = this.handleBtnClick.bind(this);
+        this.handleItemDelete = this.handleItemDelete.bind(this);
         // store 内容发生改变，subscribe内函数就会自动自行
         store.subscribe(this.handleStoreChange)
     }
 
     render() {
         return (
-            <div style={{marginTop: '10px', marginLeft: '10px'}}>
-                <div>
-                    <Input value={this.state.inputValue}
-                           placeholder='todo info'
-                           style={{width: '300px', marginRight: '10px'}}
-                           onChange={this.handleInputChange}
-                    />
-                    <Button onClick={this.handleBtnClick} type="primary">提交</Button>
-                </div>
-
-                <List
-                    style={{marginTop: '10px', 'width': '300px'}}
-                    header={<div>Header</div>}
-                    footer={<div>Footer</div>}
-                    bordered
-                    dataSource={this.state.list}
-                    renderItem={item => (
-                        <List.Item>
-                            {item}
-                        </List.Item>
-                    )}
-                />
-
-            </div>
+            <TodoListUI
+                inputValue={this.state.inputValue}
+                list={this.state.list}
+                handleInputChange = {this.handleInputChange}
+                handleBtnClick = {this.handleBtnClick}
+                handleItemDelete = {this.handleItemDelete}
+            />
         )
     }
 
     handleInputChange(e) {
-        const action = {
-            type: 'change_input_value',
-            value: e.target.value
-        }
+        const action = getInputChangeAction(e.target.value);
         store.dispatch(action);
         console.log(e.target.value);
+    }
+
+    handleItemDelete(index) {
+        const action = delItemAction(index);
+        store.dispatch(action);
     }
 
     handleStoreChange() {
@@ -61,9 +47,7 @@ class TodoList extends Component {
     }
 
     handleBtnClick() {
-        const action = {
-            type: 'add_todo_item'
-        };
+        const action = getAddItemAction();
         store.dispatch(action);
     }
 }
