@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import store from './store/index';
-import {getInputChangeAction, getAddItemAction, delItemAction} from './store/actionCreators';
+import {getInputChangeAction, getAddItemAction, delItemAction, getInitList} from './store/actionCreators';
 import TodoListUI from './TodoListUI';
 
 class TodoList extends Component {
@@ -23,11 +23,17 @@ class TodoList extends Component {
             <TodoListUI
                 inputValue={this.state.inputValue}
                 list={this.state.list}
-                handleInputChange = {this.handleInputChange}
-                handleBtnClick = {this.handleBtnClick}
-                handleItemDelete = {this.handleItemDelete}
+                handleInputChange={this.handleInputChange}
+                handleBtnClick={this.handleBtnClick}
+                handleItemDelete={this.handleItemDelete}
             />
         )
+    }
+
+    componentDidMount() {
+        const action = getInitList();
+        store.dispatch(action);
+        console.log(action);
     }
 
     handleInputChange(e) {

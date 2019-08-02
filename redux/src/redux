@@ -14,3 +14,14 @@ store.dispatch   派发action，传递给store
 store.getState  获取store里所有内容
 
 store.subscribe 订阅store内容的改变
+
+
+当一个普通组件只有render函数的时候，我们完全可以通过无状态组件，来替换这个组件
+
+1、无状态组件性能比较高
+
+
+
+但我们定义一个UI组件的时候，可以用无状态组件去做
+
+中间键
