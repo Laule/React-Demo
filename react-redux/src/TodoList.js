@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
+import {getInputChangeAction, getAddItemAction, delItemAction} from './store/actionCreators';
 
 const TodoList = (props) => {
-    const {inputValue, list, handleInputChange, handleDelete, handleBtnClick} = props;
+    const {inputValue, list, handleInputChange, handleItemDelete, handleBtnClick} = props;
     return (
         <div>
             <div>
@@ -12,14 +13,15 @@ const TodoList = (props) => {
             <ul>
                 {
                     list.map((item, index) => {
-                        return <li onClick={handleDelete} key={index}>{item}</li>
+                        return <li onClick={() => {
+                            handleItemDelete(index)
+                        }} key={index}>{item}</li>
                     })
                 }
             </ul>
         </div>
     )
 }
-
 
 // 将state映射给props
 const mapStateToProps = (state) => {
@@ -32,23 +34,16 @@ const mapStateToProps = (state) => {
 const mapDispatchProps = (dispatch) => {
     return {
         handleInputChange(e) {
-            const action = {
-                type: 'change_input_value',
-                value: e.target.value
-            };
+            const action = getInputChangeAction(e.target.value);
             dispatch(action);
-            // console.log(e.target.value);
         },
         handleBtnClick() {
-            const action = {
-                type: 'add_list_item'
-            };
+            const action = getAddItemAction();
             dispatch(action);
         },
-        handleDelete() {
-            const action = {
-                type: 'delete_list_item'
-            };
+        handleItemDelete(index) {
+            console.log(index);
+            const action = delItemAction(index);
             dispatch(action);
         }
     }
