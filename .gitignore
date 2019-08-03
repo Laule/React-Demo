@@ -1,0 +1,10 @@
+anime/node_modules
+react-redux/node_modules
+redux/node_modules
+todolist/node_modules
+
+.idea
+.idea/node_modules
+.idea/node_modules
+.idea/node_modules
+.idea/node_modules
