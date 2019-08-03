@@ -4,7 +4,7 @@ redux/node_modules
 todolist/node_modules
 
 .idea
-.idea/node_modules
-.idea/node_modules
-.idea/node_modules
-.idea/node_modules
+anime/.idea
+react-redux/.idea
+redux/.idea
+todolist/.idea
